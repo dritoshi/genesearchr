@@ -1,1 +1,14 @@
-genesearchr/DESCRIPTION
+Package: genesearchr
+Type: Package
+Title: Full-text search in NCBI RefSeq and/or UniProt-KB
+Version: 0.99.0
+Date: 2012-09-30
+Author: Itoshi NIKAIDO
+Maintainer: Itoshi NIKAIDO <dritoshi@gmail.com>
+Description: This R package can search NCBI RefSeq and UniProt-KB
+    from R using GGRNA and Restauro Web API
+License: Artistic-2.0
+LazyLoad: yes
+biocViews: DataImport
+Collate:
+    'refSeqSearch.R'

@@ -6,9 +6,11 @@
 #' @name genesearchr
 #' @docType package
 #' @aliases GeneSearchr package-genesearchr genesearch
+#'
 #' @references Yuki Naito & Hidemasa Bono (2012)
-#' GGRNA: an ultrafast, transcript-oriented search engine 
+#' GGRNA: an ultrafast, transcript-oriented search engine
 #' for genes and transcripts. Nucleic Acids Res. 40, W592-W596.
+#'
 #' @references Kazuharu Arakawa. G-Links is a rapid data "broker" 
 #' service that collects and adds related information 
 #' to a given gene (or gene set). http://link.g-language.org/
@@ -117,6 +119,74 @@ uniprotSearch <- function(query = query) {
 
   x <- read.table(url, sep = "\t", header = F)
   #x <- ""
+  
+  return(x)
+}
+
+#' Get genome sequence from GGGenome
+#'
+#' This function queries DNA sequence from GGGenome.
+#'
+#' @usage genomeSearch(query, db, k)
+#' @param query DNA sequence (character)
+#' @param db genome name (character)
+#'   hg19, mm10, rn5, galGal4, xenTro3, danRer7, ci2, dm3, 
+#'   ce10, TAIR10, rice, bmor1, refseq, ddbj
+#' @param k Maximum number of mismatches/gaps. (default: 0) (numeric vecter)
+#'
+#' @return A GRanges Object
+#'
+#' @export
+#'
+#' @details
+#' Search operators:
+#' See http://gggenome.dbcls.jp/en/help.html
+#'
+#' Species:
+#' \itemize{
+#'   \item Human:       "hs19"
+#'   \item Mouse:       "mm10"
+#'   \item Rat:         "rn5"
+#'   \item Chicken:     "galGal4"
+#'   \item Frog:        "xenTro3"
+#'   \item Zebrafish:   "danRer7"
+#'   \item Sea squirt:  "ci2"
+#'   \item Fly:         "dm3"
+#'   \item Worm:        "ce10"
+#'   \item Arabidopsis: "TAIR10"
+#'   \item Rice:        "rice"
+#'   \item RefSeq:      "refseq"
+#'   \item DDBJ:        "ddbj"
+#' }
+#'
+#' @examples
+#' my.mm10.dna <- genomeSearch(query = "TTCATTGACAACATTGCGT", db = "mm10", k = 2)
+genomeSearch <- function(query = query, db = species, k = 0) {
+
+  ## build a query string
+  # phrase searching
+
+  if ( identical(integer(0), grep(" ", query)) ) {
+    query.string <- query
+  } else {
+    query.string <- paste0('%20', query, '%20')    
+    query.string <- sub(" ", "+", query.string)
+  }
+  cat(query.string, "\n")
+
+  ## searching
+  url    = "http://GGGenome.dbcls.jp/"
+  format = ".txt"
+  url = paste0(url, db, "/", k, "/", query.string, format)
+  cat(url, "\n")
+
+  x <- read.table(url, sep = "\t", header = F)
+  x <- GRanges(
+    seqnames = x[,1],
+    strand   = x[,2],
+    ranges   = IRanges(start = x[,3], end = x[,4]),
+    sequence = x[,5]
+  )
   
   return(x)
 }
