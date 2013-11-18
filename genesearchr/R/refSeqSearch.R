@@ -69,7 +69,8 @@ refSeqSearch <- function(query = query, species = species) {
   cat(query.string, "\n")
 
   ## searching
-  url    = "http://GGRNA.dbcls.jp/api/"
+  # url    = "http://GGRNA.dbcls.jp/api/"  # version 1
+  url = "http://GGRNA.dbcls.jp/"           # version 2
   format = ".txt"
   url = paste0(url, species, "/", query.string, format)
   cat(url, "\n")
