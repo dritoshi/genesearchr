@@ -1,11 +1,12 @@
 Package: genesearchr
 Type: Package
-Title: Full-text and DNA search in NCBI RefSeq, UniProt-KB and genome sequence
+Title: Fast full-text and DNA search in NCBI RefSeq, UniProt-KB and genome
+    sequence
 Version: 0.99.1
 Date: 2013-11-18
 Author: Itoshi NIKAIDO
 Maintainer: Itoshi NIKAIDO <dritoshi@gmail.com>
-Description: This R package can search NCBI RefSeq, UniProt-KB, Genome
+Description: This R package can full text search NCBI RefSeq, UniProt-KB, Genome
     Sequences from R using GGRNA/GGGenome and Restauro Web API (G-links)
 Depends:
     GenomicRanges
@@ -15,4 +16,4 @@ License: Artistic-2.0
 LazyLoad: yes
 biocViews: DataImport
 Collate:
-    'refSeqSearch.R'
+    'genesearchr.R'
