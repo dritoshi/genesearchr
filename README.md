@@ -1,4 +1,4 @@
-orenogb2
+genesearchR
 ====
 
 This R package can fast full-text searches NCBI RefSeq, UniProt-KB and
