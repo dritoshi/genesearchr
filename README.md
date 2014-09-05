@@ -12,15 +12,16 @@ Start R
     sudo R
 
 Install packages
-
-    source("http://bioconductor.org/biocLite.R")
-    biocLite("GenomicRanges")
+```{r}
+source("http://bioconductor.org/biocLite.R")
+biocLite("GenomicRanges")
     
-    install.packages("devtools")
-    install.packages("roxygen2")
+install.packages("devtools")
+install.packages("roxygen2")
 
-    library(devtools)
-    install_github("genesearchr", "dritoshi")
+library(devtools)
+install_github("genesearchr", "dritoshi")
+```
 
 ## Usage
 ```{r}
