@@ -20,7 +20,7 @@ install.packages("devtools")
 install.packages("roxygen2")
 
 library(devtools)
-install_github("genesearchr", "dritoshi")
+install_github("dritoshi/genesearchr")
 ```
 
 ## Usage
