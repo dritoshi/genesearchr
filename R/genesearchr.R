@@ -26,7 +26,7 @@ NULL
 #' @param query keyword or phrase (vector)
 #' @param species Human: "hs", Mouse: "Mm", Rat: "Rn" and so on.
 #'
-#' @return A data frame
+#' @return A data frame. If there is no hit, function returns NULL.
 #'
 #' @export
 #'
@@ -34,7 +34,7 @@ NULL
 #' Search operators:
 #' See http://ggrna.dbcls.jp/en/help.html
 #'
-#' Species:
+#' Example of species:
 #' \itemize{
 #'   \item Human:         "hs"
 #'   \item Mouse:         "mm"
@@ -75,9 +75,18 @@ refSeqSearch <- function(query = query, species = species) {
   url = paste0(url, species, "/", query.string, format)
   cat(url, "\n")
 
-  x <- read.table(url, sep = "\t", header = F)
-  
-  return(x)
+  x = NULL
+  ret <- tryCatch(
+    x <- read.table(url, sep = "\t", header = F),
+    error = function(e) {
+      cat("No hit: ")
+      message(e)
+      cat("\n")
+    },
+    silent = TRUE
+  )
+
+  return(x)  
 }
 
 #' Get various gene annotation of UniProt-KB from G-links
@@ -88,7 +97,7 @@ refSeqSearch <- function(query = query, species = species) {
 #' @usage uniprotSearch(query)
 #' @param query keyword (vector)
 #'
-#' @return A data frame
+#' @return A data frame. If there is no hit, function returns NULL.
 #'
 #' @export
 #'
@@ -116,10 +125,17 @@ uniprotSearch <- function(query = query) {
   url    = "http://link.g-language.org/"
   format = "/format=txt"
   url = paste0(url, query.string, format)
-  cat(url, "\n")
 
-  x <- read.table(url, sep = "\t", header = F)
-  #x <- ""
+  x = NULL
+  ret <- tryCatch(
+    x <- read.table(url, sep = "\t", header = F),
+    error = function(e) {
+      cat("No hit: ")
+      message(e)
+      cat("\n")
+    },
+    silent = TRUE
+  )
   
   return(x)
 }
@@ -135,7 +151,7 @@ uniprotSearch <- function(query = query) {
 #'   ce10, TAIR10, rice, bmor1, refseq, ddbj
 #' @param k Maximum number of mismatches/gaps. (default: 0) (numeric vecter)
 #'
-#' @return A GRanges Object
+#' @return A GRanges Object. If there is no hit, function returns NULL.
 #'
 #' @export
 #'
@@ -143,21 +159,22 @@ uniprotSearch <- function(query = query) {
 #' Search operators:
 #' See http://gggenome.dbcls.jp/en/help.html
 #'
-#' Species:
+#' Example of species:
 #' \itemize{
-#'   \item Human:       "hs19"
-#'   \item Mouse:       "mm10"
-#'   \item Rat:         "rn5"
-#'   \item Chicken:     "galGal4"
-#'   \item Frog:        "xenTro3"
-#'   \item Zebrafish:   "danRer7"
-#'   \item Sea squirt:  "ci2"
-#'   \item Fly:         "dm3"
-#'   \item Worm:        "ce10"
-#'   \item Arabidopsis: "TAIR10"
-#'   \item Rice:        "rice"
-#'   \item RefSeq:      "refseq"
-#'   \item DDBJ:        "ddbj"
+#'   \item Human:        "hs19"
+#'   \item Mouse:        "mm10"
+#'   \item Rat:          "rn5"
+#'   \item Chicken:      "galGal4"
+#'   \item Frog:         "xenTro3"
+#'   \item Zebrafish:    "danRer7"
+#'   \item Sea squirt:   "ci2"
+#'   \item Fly:          "dm3"
+#'   \item Worm:         "ce10"
+#'   \item Arabidopsis:  "TAIR10"
+#'   \item Rice:         "rice"
+#'   \item RefSeq:       "refseq"
+#'   \item Mouse RefSeq: "mm_refseq80"
+#'   \item DDBJ:         "ddbj"
 #' }
 #'
 #' @examples
@@ -181,13 +198,25 @@ genomeSearch <- function(query = query, db = species, k = 0) {
   url = paste0(url, db, "/", k, "/", query.string, format)
   cat(url, "\n")
 
-  x <- read.table(url, sep = "\t", header = F)
-  x <- GRanges(
-    seqnames = x[,1],
-    strand   = x[,2],
-    ranges   = IRanges(start = x[,3], end = x[,4]),
-    sequence = x[,5]
+  x = NULL
+  ret <- tryCatch(
+    x <- read.table(url, sep = "\t", header = F),
+    error = function(e) {
+      cat("No hit: ")
+      message(e)
+      cat("\n")
+    },
+    silent = TRUE
   )
-  
+  # x <- read.table(url, sep = "\t", header = F)
+
+  if (!is.null(x)) {
+    x <- GRanges(
+      seqnames = x[,1],
+      strand   = x[,2],
+      ranges   = IRanges(start = x[,3], end = x[,4]),
+      sequence = x[,5]
+    )
+  }
   return(x)
 }

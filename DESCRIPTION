@@ -17,3 +17,4 @@ LazyLoad: yes
 biocViews: DataImport
 Collate:
     'genesearchr.R'
+Suggests: testthat
