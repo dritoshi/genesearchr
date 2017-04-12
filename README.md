@@ -1,8 +1,8 @@
 genesearchR
 ====
 
-This R package can fast full-text searches NCBI RefSeq, UniProt-KB and
-genome DNA sequence from
+This R package can quickly search full-text of NCBI RefSeq, UniProt-KB and
+whole genome DNA sequence from
 [GGRNA](http://ggrna.dbcls.jp/en/help.html)/[GGGenome](http://gggenome.dbcls.jp/en/)
 and [G-links](http://link.g-language.org/) Web API.
 
