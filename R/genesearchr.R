@@ -77,7 +77,7 @@ refSeqSearch <- function(query = query, species = species) {
 
   x = NULL
   ret <- tryCatch(
-    x <- read.table(url, sep = "\t", header = F),
+    x <- read.table(url, sep = "\t", header = F, quote = ""),
     error = function(e) {
       cat("No hit: ")
       message(e)
@@ -128,7 +128,7 @@ uniprotSearch <- function(query = query) {
 
   x = NULL
   ret <- tryCatch(
-    x <- read.table(url, sep = "\t", header = F),
+    x <- read.table(url, sep = "\t", header = F, quote = ""),
     error = function(e) {
       cat("No hit: ")
       message(e)
@@ -200,7 +200,7 @@ genomeSearch <- function(query = query, db = species, k = 0) {
 
   x = NULL
   ret <- tryCatch(
-    x <- read.table(url, sep = "\t", header = F),
+    x <- read.table(url, sep = "\t", header = F, quote = ""),
     error = function(e) {
       cat("No hit: ")
       message(e)
